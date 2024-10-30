@@ -1,5 +1,11 @@
-const HotelList = () => {
-  return <main>Hotel list here</main>;
+import HotelList from "@/components/HotelList";
+
+const HotelListModule = () => {
+  return (
+    <main>
+      <HotelList />
+    </main>
+  );
 };
 
-export default HotelList;
+export default HotelListModule;
