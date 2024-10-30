@@ -1,3 +1,4 @@
+import Navbar from "@/components/Navbar";
 import { apiFetchHotels } from "@core/api/hotelsApi";
 import { setHotels } from "@core/store/globalSlice";
 import { Providers } from "@core/store/provider";
@@ -6,7 +7,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Hotels App",
+  title: "Hotels App - joserealdev",
   description: "Github: joserealdev",
 };
 
@@ -33,7 +34,10 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Providers initialState={initialState}>{children}</Providers>
+        <Providers initialState={initialState}>
+          <Navbar />
+          {children}
+        </Providers>
       </body>
     </html>
   );

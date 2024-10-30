@@ -1,37 +1,12 @@
 import { Hotel } from "@/types/hotel";
+import { getFeatureIcon } from "@core/helpers/icons";
 import {
   changeFeatureFilter,
   changeRatingFilter,
 } from "@core/store/globalSlice";
 import { useAppDispatch, useAppSelector } from "@core/store/hooks";
 import { useState } from "react";
-
-interface CheckboxProps {
-  isChecked?: boolean;
-  isDisabled?: boolean;
-  onChange?: () => void;
-  children: React.ReactNode;
-}
-
-const Checkbox = ({
-  isChecked,
-  isDisabled,
-  onChange,
-  children,
-}: CheckboxProps) => {
-  return (
-    <div className="flex items-center">
-      <input
-        type="checkbox"
-        checked={isChecked}
-        disabled={isDisabled}
-        onChange={onChange}
-        className="mr-2 w-4 h-4 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-      />
-      <label className="text-sm font-medium">{children}</label>
-    </div>
-  );
-};
+import { Checkbox } from "./Checkbox";
 
 interface CollapseProps {
   visible: boolean;
@@ -40,7 +15,9 @@ interface CollapseProps {
 
 const Collapse = ({ visible, children }: CollapseProps) => {
   return visible ? (
-    <div className="mt-4 max-h-56 overflow-auto">{children}</div>
+    <div className="mt-4 max-h-56 flex flex-col gap-2 overflow-auto">
+      {children}
+    </div>
   ) : null;
 };
 
@@ -120,16 +97,6 @@ const FilterWrapper = ({ title, children, icon }: WrapperProps) => {
   );
 };
 
-const PopularFiters = () => {
-  return (
-    <FilterWrapper title="Popular filters">
-      {["All inclusive"].map((feature) => (
-        <Checkbox key={feature}>{feature}</Checkbox>
-      ))}
-    </FilterWrapper>
-  );
-};
-
 const StarsFilter = () => {
   const hotels = useAppSelector((store) => store.global.hotels);
   const ratingFilter = useAppSelector((store) => store.global.ratingFilter);
@@ -145,14 +112,13 @@ const StarsFilter = () => {
         return (
           <div key={`${stars}-stars`} className="flex justify-between">
             <Checkbox
-              isDisabled={getNumberOfHotelsWithStars(hotels, stars) < 1}
-              isChecked={isSelected}
+              disabled={getNumberOfHotelsWithStars(hotels, stars) < 1}
+              checked={isSelected}
               onChange={() => {
                 dispatch(changeRatingFilter(stars));
               }}
-            >
-              {stars}-star hotel
-            </Checkbox>
+              label={`${stars}-star hotel`}
+            />
             {getNumberOfHotelsWithStars(hotels, stars)}
           </div>
         );
@@ -168,15 +134,15 @@ const BoardBasisFilter = () => {
   return (
     <FilterWrapper title="Board basis">
       {featureFilters.map(({ feature, isSelected }) => (
-        <div key={feature} className="flex justify-between">
+        <div key={feature} className="flex gap-2 items-center">
           <Checkbox
-            isChecked={isSelected}
+            checked={isSelected}
             onChange={() => {
               dispatch(changeFeatureFilter(feature));
             }}
-          >
-            {feature}
-          </Checkbox>
+            label={feature}
+          />
+          {getFeatureIcon(feature).icon}
         </div>
       ))}
     </FilterWrapper>
@@ -186,4 +152,4 @@ const BoardBasisFilter = () => {
 const getNumberOfHotelsWithStars = (hotels: Hotel[], stars: number) =>
   hotels.reduce((prev, curr) => (curr.star === stars ? prev + 1 : prev), 0);
 
-export { BoardBasisFilter, PopularFiters, StarsFilter };
+export { BoardBasisFilter, StarsFilter };
