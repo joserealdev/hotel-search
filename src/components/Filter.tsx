@@ -1,4 +1,5 @@
 import { Hotel } from "@/types/hotel";
+import { getFeatureIcon } from "@core/helpers/icons";
 import {
   changeFeatureFilter,
   changeRatingFilter,
@@ -133,7 +134,7 @@ const BoardBasisFilter = () => {
   return (
     <FilterWrapper title="Board basis">
       {featureFilters.map(({ feature, isSelected }) => (
-        <div key={feature} className="flex justify-between">
+        <div key={feature} className="flex gap-2 items-center">
           <Checkbox
             checked={isSelected}
             onChange={() => {
@@ -141,6 +142,7 @@ const BoardBasisFilter = () => {
             }}
             label={feature}
           />
+          {getFeatureIcon(feature).icon}
         </div>
       ))}
     </FilterWrapper>

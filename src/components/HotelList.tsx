@@ -12,15 +12,15 @@ const HotelCard = ({ hotel }: { hotel: Hotel }) => {
   const discount = calculateDiscount(hotel.originalPrice, hotel.finalPrice);
 
   return (
-    <div className="bg-[var(--box-bg)] rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    <div className="group bg-[var(--box-bg)] rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
       <div className="flex flex-col md:flex-row">
-        <div className="relative w-full md:max-w-[50%] md:w-64">
+        <div className="relative w-full md:w-64 overflow-hidden">
           <Image
             src={hotel.image}
             alt={hotel.name}
             width={300}
             height={200}
-            className="w-full max-h-[200px] md:max-h-full md:h-full object-cover"
+            className="w-full max-h-[200px] md:max-h-full md:h-full object-cover group-hover:scale-105 transition-all"
           />
           {discount > 0 && (
             <div className="absolute top-4 left-4 bg-red-500 text-white px-2 py-1 rounded-full text-sm font-semibold">
