@@ -1,7 +1,9 @@
 "use client";
 import { BoardBasisFilter, StarsFilter } from "@/components/Filter";
 import HotelList from "@/components/HotelList";
-import HotelMap from "@/components/Map";
+import dynamic from "next/dynamic";
+
+const LeafletMap = dynamic(() => import("@/components/Map"), { ssr: false });
 
 export default function Home() {
   return (
@@ -14,7 +16,7 @@ export default function Home() {
         <HotelList />
       </main>
       <section className="col-span-1 sm:col-span-10 lg:col-span-3 w-full h-96 rounded-lg overflow-hidden">
-        <HotelMap />
+        <LeafletMap />
       </section>
     </div>
   );
