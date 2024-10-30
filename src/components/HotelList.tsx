@@ -2,39 +2,10 @@
 
 import { Hotel } from "@/types/hotel";
 import { useAppSelector } from "@core/store/hooks";
-import {
-  IconAirConditioning,
-  IconCoffee,
-  IconDeviceTv,
-  IconStar,
-  IconStarFilled,
-  IconWifi,
-} from "@tabler/icons-react";
+import { IconStar, IconStarFilled } from "@tabler/icons-react";
 import Image from "next/image";
 import React from "react";
-
-interface Feature {
-  name: string;
-  icon: React.ReactNode;
-}
-
-const getFeatureIcon = (feature: string): Feature => {
-  switch (feature.toLowerCase()) {
-    case "wifi":
-      return { name: feature, icon: <IconWifi className="w-4 h-4" /> };
-    case "tv":
-      return { name: feature, icon: <IconDeviceTv className="w-4 h-4" /> };
-    case "air conditioner":
-      return {
-        name: feature,
-        icon: <IconAirConditioning className="w-4 h-4" />,
-      };
-    case "breakfast":
-      return { name: feature, icon: <IconCoffee className="w-4 h-4" /> };
-    default:
-      return { name: feature, icon: null };
-  }
-};
+import { getFeatureIcon } from "./icon-helper";
 
 const calculateDiscount = (original: number, final: number): number => {
   return Math.round(((original - final) / original) * 100);
