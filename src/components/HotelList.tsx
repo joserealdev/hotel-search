@@ -16,14 +16,14 @@ const HotelCard: React.FC<{ hotel: Hotel }> = ({ hotel }) => {
 
   return (
     <div className="bg-[var(--box-bg)] rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-      <div className="flex">
-        <div className="relative w-48 md:w-64">
+      <div className="flex flex-col md:flex-row">
+        <div className="relative w-full md:max-w-[50%] md:w-64">
           <Image
             src={hotel.image}
             alt={hotel.name}
             width={300}
             height={200}
-            className="w-full h-full object-cover"
+            className="w-full max-h-[200px] md:max-h-full md:h-full object-cover"
           />
           {discount > 0 && (
             <div className="absolute top-4 left-4 bg-red-500 text-white px-2 py-1 rounded-full text-sm font-semibold">
@@ -32,7 +32,7 @@ const HotelCard: React.FC<{ hotel: Hotel }> = ({ hotel }) => {
           )}
         </div>
         <div className="flex-1 p-6">
-          <div className="flex justify-between items-start mb-4">
+          <div className="flex flex-col lg:flex-row justify-between items-start mb-4">
             <h3 className="text-xl font-semibold">{hotel.name}</h3>
             <div className="flex items-center">
               {Array.from({ length: 5 }).map((_, index) =>
@@ -73,7 +73,7 @@ const HotelCard: React.FC<{ hotel: Hotel }> = ({ hotel }) => {
             })}
           </div>
 
-          <button className="mt-4 w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200">
+          <button className="mt-4 w-full md:w-auto bg-[var(--primary)] ring-[var(--secondary)] hover:ring-1 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-200">
             Book Now
           </button>
         </div>
