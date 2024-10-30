@@ -1,5 +1,9 @@
 # Hotel Booking App
 
+![Preview](https://github.com/user-attachments/assets/7a30eeac-8f4e-4b44-9134-107db66217f4)
+
+Watch it live [here!](https://hotel-search-delta.vercel.app/)
+
 ## Overview
 
 This app provides a user-friendly interface for searching and booking hotels. It includes the following key features:
