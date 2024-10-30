@@ -1,17 +1,14 @@
-"use client";
-
 import { Hotel } from "@/types/hotel";
-import { useAppSelector } from "@core/store/hooks";
-import { IconStar, IconStarFilled } from "@tabler/icons-react";
+import { hotelFilter, useAppSelector } from "@core/store/hooks";
+import { IconHelp, IconStar, IconStarFilled } from "@tabler/icons-react";
 import Image from "next/image";
-import React from "react";
-import { getFeatureIcon } from "./icon-helper";
+import { getFeatureIcon } from "../core/helpers/icons";
 
 const calculateDiscount = (original: number, final: number): number => {
   return Math.round(((original - final) / original) * 100);
 };
 
-const HotelCard: React.FC<{ hotel: Hotel }> = ({ hotel }) => {
+const HotelCard = ({ hotel }: { hotel: Hotel }) => {
   const discount = calculateDiscount(hotel.originalPrice, hotel.finalPrice);
 
   return (
@@ -82,16 +79,28 @@ const HotelCard: React.FC<{ hotel: Hotel }> = ({ hotel }) => {
   );
 };
 
-const HotelList: React.FC = () => {
-  const hotels = useAppSelector((state) => state.global.hotels);
+const HotelList = () => {
+  const hotels = useAppSelector(hotelFilter());
 
-  return (
-    <div className="max-w-5xl mx-auto p-6 space-y-6">
-      {hotels.map((hotel, index) => (
-        <HotelCard key={index} hotel={hotel} />
-      ))}
-    </div>
-  );
+  if (hotels.length === 0) return <NoResults />;
+
+  return hotels.map((hotel, index) => <HotelCard key={index} hotel={hotel} />);
 };
+
+const NoResults = () => (
+  <div className="flex flex-col items-center justify-center h-screen">
+    <div className="bg-white shadow-md rounded-lg p-8 text-center">
+      <IconHelp className="w-12 h-12 text-gray-500 mb-4" />
+      <h2 className="text-2xl font-semibold mb-2">No results found</h2>
+      <p className="text-gray-500 mb-6">
+        Try removing some of your search filters or criteria to see more
+        results.
+      </p>
+      <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+        Try a new search
+      </button>
+    </div>
+  </div>
+);
 
 export default HotelList;

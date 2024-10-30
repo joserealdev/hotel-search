@@ -1,3 +1,4 @@
+import { hotelFilter, useAppSelector } from "@core/store/hooks";
 import { IconStar } from "@tabler/icons-react";
 import L, { LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -21,7 +22,6 @@ interface Hotel {
 
 interface HotelMapProps {
   hotels: Hotel[];
-  className?: string;
   onMarkerClick?: (hotel: Hotel) => void;
 }
 
@@ -119,11 +119,8 @@ const HotelPopup: React.FC<{ hotel: Hotel }> = ({ hotel }) => {
   );
 };
 
-const HotelMap: React.FC<HotelMapProps> = ({
-  hotels,
-  className = "",
-  onMarkerClick,
-}) => {
+const HotelMap: React.FC = () => {
+  const hotels = useAppSelector(hotelFilter());
   const hotelIcon = useMemo(() => createHotelIcon(), []);
 
   const center: LatLngExpression = useMemo(() => {
@@ -137,41 +134,30 @@ const HotelMap: React.FC<HotelMapProps> = ({
     return [lat, lng];
   }, [hotels]);
 
-  const handleMarkerClick = (hotel: Hotel) => {
-    if (onMarkerClick) {
-      onMarkerClick(hotel);
-    }
-  };
-
   return (
-    <div className={`w-full h-96 rounded-lg overflow-hidden ${className}`}>
-      <MapContainer
-        center={center}
-        zoom={13}
-        className="w-full h-full"
-        style={{ background: "#f8fafc" }}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {hotels.map((hotel, index) => (
-          <Marker
-            key={index}
-            position={[hotel.coordinates.latitude, hotel.coordinates.longitude]}
-            icon={hotelIcon}
-            eventHandlers={{
-              click: () => handleMarkerClick(hotel),
-            }}
-          >
-            <Popup>
-              <HotelPopup hotel={hotel} />
-            </Popup>
-          </Marker>
-        ))}
-        <MapBounds hotels={hotels} />
-      </MapContainer>
-    </div>
+    <MapContainer
+      center={center}
+      zoom={13}
+      className="w-full h-96"
+      style={{ background: "#f8fafc" }}
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      {hotels.map((hotel, index) => (
+        <Marker
+          key={index}
+          position={[hotel.coordinates.latitude, hotel.coordinates.longitude]}
+          icon={hotelIcon}
+        >
+          <Popup>
+            <HotelPopup hotel={hotel} />
+          </Popup>
+        </Marker>
+      ))}
+      <MapBounds hotels={hotels} />
+    </MapContainer>
   );
 };
 
