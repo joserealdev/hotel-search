@@ -51,7 +51,7 @@ The app integrates a map component to display the location of the filtered hotel
 
 ## Getting Started
 
-1. Clone the repository: `git clone https://github.com/your-username/hotel-booking-app.git`
+1. Clone the repository: `git clone https://github.com/joserealdev/hotel-search.git`
 2. Install dependencies: `npm install`
 3. Start the development server: `npm start`
 4. Open the app in your browser: `http://localhost:3000`
