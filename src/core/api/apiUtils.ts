@@ -1,4 +1,4 @@
-const baseUrl = process.env.NEXT_PUBLIC_HOTELS_BASE_URL;
+const baseUrl = process.env.API_URL;
 
 const baseFetch = async (
   path: string,

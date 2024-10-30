@@ -1,24 +1,39 @@
+import { apiFetchHotels } from "@core/api/hotelsApi";
+import { setHotels } from "@core/store/globalSlice";
 import { Providers } from "@core/store/provider";
+import { makeStore } from "@core/store/store";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Hotels App",
   description: "Github: joserealdev",
 };
 
-export default function RootLayout({
+const store = makeStore();
+
+async function initializeStoreData() {
+  try {
+    const hotels = await apiFetchHotels();
+    store.dispatch(setHotels(hotels));
+    return store.getState();
+  } catch (error) {
+    console.error("Failed to initialize store data:", error);
+    return store.getState();
+  }
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const initialState = await initializeStoreData();
+
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Providers>{children}</Providers>
+      <body>
+        <Providers initialState={initialState}>{children}</Providers>
       </body>
     </html>
   );
