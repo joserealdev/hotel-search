@@ -1,5 +1,6 @@
 import { Hotel } from "@/types/hotel";
-import { hotelFilter, useAppSelector } from "@core/store/hooks";
+import { resetFilters } from "@core/store/globalSlice";
+import { hotelFilter, useAppDispatch, useAppSelector } from "@core/store/hooks";
 import { IconHelp, IconStar, IconStarFilled } from "@tabler/icons-react";
 import Image from "next/image";
 import { getFeatureIcon } from "../core/helpers/icons";
@@ -87,20 +88,29 @@ const HotelList = () => {
   return hotels.map((hotel, index) => <HotelCard key={index} hotel={hotel} />);
 };
 
-const NoResults = () => (
-  <div className="flex flex-col items-center justify-center h-screen">
-    <div className="bg-white shadow-md rounded-lg p-8 text-center">
-      <IconHelp className="w-12 h-12 text-gray-500 mb-4" />
-      <h2 className="text-2xl font-semibold mb-2">No results found</h2>
-      <p className="text-gray-500 mb-6">
-        Try removing some of your search filters or criteria to see more
-        results.
-      </p>
-      <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-        Try a new search
-      </button>
+const NoResults = () => {
+  const dispatch = useAppDispatch();
+
+  return (
+    <div className="flex flex-col items-center justify-center h-screen">
+      <div className="bg-[var(--box-bg)] shadow-md rounded-lg p-8 text-center">
+        <IconHelp className="w-12 h-12 text-gray-500 mb-4" />
+        <h2 className="text-2xl font-semibold mb-2">No results found</h2>
+        <p className="text-gray-500 mb-6">
+          Try removing some of your search filters or criteria to see more
+          results.
+        </p>
+        <button
+          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+          onClick={() => {
+            dispatch(resetFilters());
+          }}
+        >
+          Try a new search
+        </button>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default HotelList;

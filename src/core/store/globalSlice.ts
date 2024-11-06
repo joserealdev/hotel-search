@@ -68,6 +68,16 @@ const globalSlice = createSlice({
         isSelected: !state.ratingFilter[idx].isSelected,
       };
     },
+    resetFilters: (state: State) => {
+      state.featureFilters = state.featureFilters.map((filter) => ({
+        ...filter,
+        isSelected: false,
+      }));
+      state.ratingFilter = state.ratingFilter.map((filter) => ({
+        ...filter,
+        isSelected: false,
+      }));
+    },
     setHotels: (state: State, action: PayloadAction<Hotel[]>) => {
       state.hotels = action.payload;
       state.featureFilters = getFilters(action.payload);
@@ -89,7 +99,11 @@ const globalSlice = createSlice({
   },
 });
 
-export const { changeFeatureFilter, changeRatingFilter, setHotels } =
-  globalSlice.actions;
+export const {
+  changeFeatureFilter,
+  changeRatingFilter,
+  resetFilters,
+  setHotels,
+} = globalSlice.actions;
 export { fetchHotels };
 export default globalSlice.reducer;
